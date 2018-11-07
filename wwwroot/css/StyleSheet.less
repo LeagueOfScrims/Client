@@ -1,0 +1,132 @@
+﻿@nav: #1F2833;
+@background: #0B0C10;
+@light: #C5C6C7;
+@lightcol: #66FCF1;
+@darkcol: #45A29E;
+
+@font-face {
+    font-family: 'Roboto';
+    src: url('../font/Roboto-Regular.ttf') format('truetype') font-weight-normal;
+    src: url('../font/Roboto-Italic.ttf') format('truetype') font-weight-normal font-italic;
+    src: url('../font/Roboto-Bold.ttf') format('truetype') font-weight-bold;
+}
+
+.ff(){
+    font-family:Roboto, sans-serif;
+}
+
+html, body {
+    background-color:@background;
+    .ff;
+    height:100%;
+
+}
+
+header {
+    width: 100vw;
+    height: 75px;
+    background-color: @nav;
+}
+
+nav {
+    color: @light;
+    margin-left:15px;
+    ul {
+        li {
+            float: left;
+            a {
+                text-decoration: none;
+                color: @light;
+                font-weight: bold;
+                text-transform: uppercase;
+                width: 100px;
+                display: block;
+                text-align: center;
+                line-height: 75px;
+            }
+        }
+    }
+}
+
+.play_button {
+    background-color: @darkcol;
+    line-height: 50px !important;
+    margin-top: 12.5px;
+    width:150px !important;
+
+    &:hover{
+        background-color:lightblue;
+        
+    }
+}
+
+.user {
+    float: right;
+    line-height: 75px;
+    width: 200px;
+    color:@light;
+}
+
+content{
+    width:100vw;
+    height: ~"calc(100% - 75px)";
+    float:left;
+    .ff;
+    color:@light;
+}
+
+.mm_wrapper{
+    display:flex;
+    justify-content:space-around;
+    height:100%;
+}
+
+.mm_gametype {
+    margin-top: 3%;
+    height: 85%;
+    width: 45%;
+    border: 1px white solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+
+    span {
+        position: relative;
+    }
+
+    &:hover {
+        div {
+            background-size: 180%;
+        }
+    }
+}
+
+.queue1 {
+    background: url("../images/matchmaking/queue1.jpg") center;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-size: 140%;
+    -moz-transition: 0.5s background-size;
+    -o-transition: 0.5s background-size;
+    -webkit-transition: 0.5s background-size;
+    transition: 0.5s background-size;
+}
+
+.queue2 {
+    background: url("../images/matchmaking/queue2.jpg") center;
+    opacity: 0.2;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background-size: 140%;
+    -moz-transition: 0.5s background-size;
+    -o-transition: 0.5s background-size;
+    -webkit-transition: 0.5s background-size;
+    transition: 0.5s background-size;
+}
