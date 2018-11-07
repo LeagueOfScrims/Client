@@ -2,14 +2,26 @@
 @{
     ViewData["Title"] = "Index";
 }
+<script src="~/js/matchmaking.js"></script>
+
 
 <div class="mm_wrapper">
-    <div class="mm_gametype" onclick="location.href='Matchmaking/fivevfive'">
-        <span>5 vs 5</span>
+    <div class="mm_gametype" onclick="oneVsoneQueue('id', 'EU')">
+        <span>1 vs 1</span>
         <div class="queue1"></div>
     </div>
     <div class="mm_gametype">
         <span>Coming soon</span>
         <div class="queue2"></div>
     </div>
+
+    <div class="searching_wrap">
+        <h4>You are now in queue</h4>
+        <div class="searching_circle">
+            <p>00:00</p>
+        </div>
+    </div>
+
 </div>
+
+
