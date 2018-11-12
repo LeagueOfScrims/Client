@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LCUSharp;
+using LOS.Models.DataToObject;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LOS.Controllers
@@ -22,12 +24,13 @@ namespace LOS.Controllers
         }
 
         [HttpPost]
-        public void SearchForMatch()
+        public async void SearchForMatch()
         {
-
-
+         
 
         }
+
+        
 
     }
 }

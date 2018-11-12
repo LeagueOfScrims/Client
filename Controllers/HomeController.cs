@@ -5,14 +5,24 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LOS.Models;
+using LCUSharp;
+using LOS.Models.DataToObject;
 
 namespace LOS.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var league = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+            Summoners sum = new Summoners(league);
+            var prof = sum.GetCurrentSummoner();
+            ViewBag.Name = prof.DisplayName;
+
+            CustomGamesManager cgm = new CustomGamesManager();
+            cgm.CreateOneOnOneGame("los", 20289202);
+           
+            return View(prof);
         }
 
         public IActionResult About()

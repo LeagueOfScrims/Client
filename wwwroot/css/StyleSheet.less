@@ -1,8 +1,8 @@
-﻿@nav: #1F2833;
-@background: #0B0C10;
-@light: #C5C6C7;
-@lightcol: #66FCF1;
-@darkcol: #45A29E;
+﻿@nav: #18121E;
+@background: #1A1A1D;
+@light: #C3073F;
+@lightcol: #950740;
+@darkcol: #BF2232;
 
 @font-face {
     font-family: 'Roboto';
@@ -19,13 +19,12 @@ html, body {
     background-color:@background;
     .ff;
     height:100%;
-
 }
 
 header {
     width: 100vw;
     height: 75px;
-    background-color: @nav;
+    background-color: @background;
 }
 
 nav {
@@ -53,9 +52,10 @@ nav {
     line-height: 50px !important;
     margin-top: 12.5px;
     width:150px !important;
+    color:@background;
 
     &:hover{
-        background-color:lightblue;
+        background-color:@light;
         
     }
 }

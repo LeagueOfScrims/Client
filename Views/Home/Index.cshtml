@@ -1,8 +1,19 @@
-﻿@{
+﻿@using LCUSharp.DataObjects;
+
+@{
     ViewData["Title"] = "Home Page";
+    ViewData["Username"] = ViewBag.Name;
 }
 
+@model LCUSharp.DataObjects.SummonerProfile
 
 
+@Model.InternalName
+@Model.LastSeasonHighestRank
+@Model.SummonerLevel
+@Model.XpSinceLastLevel
+@Model.SummonerId
 
+<br />
 
+@ViewBag.Test
