@@ -7,17 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using LOS.Models;
 using LCUSharp;
 using LOS.Models.DataToObject;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace LOS.Controllers
 {
     public class HomeController : Controller
     {
+        public static HttpClient http;
+        public ILeagueClient League;
         public async Task<IActionResult> Index()
         {
-            var league = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
-            Summoners sum = new Summoners(league);
+            League = await LeagueClient.Connect(@"C:\Riot Games\League of Legends");
+            Summoners sum = new Summoners(League);
             var prof = sum.GetCurrentSummoner();
             ViewBag.Name = prof.DisplayName;
+            await GetUserInfoAsync();
 
             CustomGamesManager cgm = new CustomGamesManager();
             cgm.CreateOneOnOneGame("los", 20289202);
@@ -34,7 +39,7 @@ namespace LOS.Controllers
 
         public IActionResult Contact()
         {
-            ViewData["Message"] = "Your contact page.";
+               ViewData["Message"] = "Your contact page.";
 
             return View();
         }
@@ -43,5 +48,30 @@ namespace LOS.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public async Task GetUserInfoAsync()
+        {
+
+            var region = await League.MakeApiRequest(LCUSharp.HttpMethod.Get, "/riotclient/region-locale");
+            var locals = JsonConvert.DeserializeObject<Region>(region.Content.ReadAsStringAsync().Result);
+
+            Summoners sum = new Summoners(League);
+            var player = sum.GetCurrentSummoner();
+
+            Summoner user = new Summoner();
+            user.SummonerID = player.SummonerId.ToString();
+            user.SummonerName = player.DisplayName;
+            user.Region = locals.RegionRegion;
+            user.Role = "Test";
+
+            http = new HttpClient();
+            await http.PostAsJsonAsync("https://localhost:44335/api/AddSummoner", user);
+        }
+    }
+    public class Summoner
+    {
+        public string SummonerID { get; set; }
+        public string SummonerName { get; set; }
+        public string Region { get; set; }
+        public string Role { get; set; }
     }
 }
