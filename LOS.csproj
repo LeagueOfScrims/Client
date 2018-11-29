@@ -3,6 +3,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\css\StyleSheet.min.css" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="BuildWebCompiler" Version="1.11.375" />
     <PackageReference Include="ElectronNET.API" Version="0.0.9" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />

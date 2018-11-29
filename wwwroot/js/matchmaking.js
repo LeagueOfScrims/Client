@@ -1,7 +1,18 @@
-﻿function oneVsoneQueue(summonerId, region) {
-    $(".mm_gametype").css({ "display": "none" });
-    $(".searching_wrap").toggle();
-    startTimer();
+﻿function oneVsoneQueue(SummonerId, Region) {
+
+    $.ajax({
+        type: 'POST',
+        url: 'http://matchmakingapi.azurewebsites.net/oneVone/JoinQueue',
+        data: { summonerId: SummonerId },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (msg) {
+            $(".mm_gametype").css({ "display": "none" });
+            $(".searching_wrap").toggle();
+            CheckIfMatchFound(SummonerId);
+            startTimer();
+        }      
+    });
 }
 
 
@@ -35,4 +46,47 @@ function get_elapsed_time_string(total_seconds) {
     var currentTimeString =  minutes + ":" + seconds;
 
     return currentTimeString;
+}
+
+function CheckIfMatchFound(SummonerId) {
+    setInterval(function () {
+        $.ajax({
+            type: 'POST',
+            url: 'http://matchmakingapi.azurewebsites.net/oneVone/MatchFound',
+            data: { summonerId: SummonerId },
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (msg) {
+                if (msg !== 0) {
+                    MatchFoundAccept(msg, SummonerId);
+                }
+            }
+        });
+    }, 2000);
+}
+
+function MatchFoundAccept(matchId, SummonerId) {
+    $.ajax({
+        type: 'POST',
+        url: 'http://matchmakingapi.azurewebsites.net/oneVone/AcceptQueue',
+        data: { summonerId: SummonerId, matchID: matchId},
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (msg) {
+            JoinMatch(match, SummonerId);
+        }
+    });
+}
+
+function JoinMatch(Match, SummonerId) {
+    $.ajax({
+        type: 'POST',
+        url: '/Matchmaking/CreateGame',
+        data: { summonerId: SummonerId, match: Match },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (msg) {
+            
+        }
+    });
 }

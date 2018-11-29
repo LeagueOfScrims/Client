@@ -18,14 +18,14 @@ namespace LOS.Controllers
         public ILeagueClient League;
         public async Task<IActionResult> Index()
         {
-            League = await LeagueClient.Connect(@"C:\Riot Games\League of Legends");
+            League = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
             Summoners sum = new Summoners(League);
             var prof = sum.GetCurrentSummoner();
             ViewBag.Name = prof.DisplayName;
             await GetUserInfoAsync();
 
-            CustomGamesManager cgm = new CustomGamesManager();
-            cgm.CreateOneOnOneGame("los", 20289202);
+            //CustomGamesManager cgm = new CustomGamesManager();
+            //cgm.CreateOneOnOneGame("los", 20289202);
            
             return View(prof);
         }
@@ -64,14 +64,7 @@ namespace LOS.Controllers
             user.Role = "Test";
 
             http = new HttpClient();
-            await http.PostAsJsonAsync("https://localhost:44335/api/AddSummoner", user);
+            await http.PostAsJsonAsync("https://lossummonerinfoapi.azurewebsites.net/api/AddSummoner", user);
         }
-    }
-    public class Summoner
-    {
-        public string SummonerID { get; set; }
-        public string SummonerName { get; set; }
-        public string Region { get; set; }
-        public string Role { get; set; }
     }
 }
