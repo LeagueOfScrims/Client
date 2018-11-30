@@ -426,5 +426,48 @@ namespace LOS.Models.DataToObject
         [JsonProperty("teamId")]
         public long TeamId { get; set; }
     }
+
+    public partial class InviteModel
+    {
+        [JsonProperty("canAcceptInvitation")]
+        public bool CanAcceptInvitation { get; set; }
+
+        [JsonProperty("fromSummonerId")]
+        public long FromSummonerId { get; set; }
+
+        [JsonProperty("fromSummonerName")]
+        public string FromSummonerName { get; set; }
+
+        [JsonProperty("gameConfig")]
+        public GameConfig GameConfig { get; set; }
+
+        [JsonProperty("invitationId")]
+        public string InvitationId { get; set; }
+
+        [JsonProperty("restrictions")]
+        public object[] Restrictions { get; set; }
+
+        [JsonProperty("state")]
+        public string State { get; set; }
+
+        [JsonProperty("timestamp")]
+        public string Timestamp { get; set; }
+    }
+
+    public partial class GameConfig
+    {
+        [JsonProperty("gameMode")]
+        public string GameMode { get; set; }
+
+        [JsonProperty("inviteGameType")]
+        public string InviteGameType { get; set; }
+
+        [JsonProperty("mapId")]
+        public long MapId { get; set; }
+
+        [JsonProperty("queueId")]
+        public long QueueId { get; set; }
+    }
+
 }
 

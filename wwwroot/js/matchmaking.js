@@ -1,15 +1,19 @@
-﻿function oneVsoneQueue(SummonerId, Region) {
+﻿var running = false;
 
-    $.ajax({
-        type: 'POST',
-        url: 'http://matchmakingapi.azurewebsites.net/oneVone/JoinQueue?summonerID=' + SummonerId,
-        success: function (msg) {
-            $(".mm_gametype").css({ "display": "none" });
-            $(".searching_wrap").toggle();
-            CheckIfMatchFound(SummonerId);
-            startTimer();
-        }      
-    });
+function oneVsoneQueue(SummonerId, Region) {
+    if (!running) {
+        running = true;
+        $.ajax({
+            type: 'POST',
+            url: 'http://matchmakingapi.azurewebsites.net/oneVone/JoinQueue?summonerID=' + SummonerId,
+            success: function (msg) {
+                $(".mm_gametype").css({ "display": "none" });
+                $(".searching_wrap").toggle();
+                CheckIfMatchFound(SummonerId);
+                startTimer();
+            }
+        });
+    }
 }
 
 function startTimer() {
@@ -70,6 +74,7 @@ function MatchFoundAccept(MatchId, SummonerId) {
 }
 
 function JoinMatch(MatchId, SummonerId) {
+    running = false;
     $.ajax({
         type: 'POST',
         url: 'Matchmaking/CreateGame',

@@ -53,16 +53,14 @@ namespace LOS.Controllers
             else
             {
                 enemy = Convert.ToInt64(Match.Sum1.SummonerID);
+                CustomGamesManager cgm = new CustomGamesManager();
+                cgm.JoinGame(enemy, match);
             }
-       
+
 
         }
         
 
 
-    }
-    public class foo
-    {
-        public string ID { get; set; }
     }
 }
