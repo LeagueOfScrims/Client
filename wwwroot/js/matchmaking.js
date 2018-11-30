@@ -2,10 +2,7 @@
 
     $.ajax({
         type: 'POST',
-        url: 'http://matchmakingapi.azurewebsites.net/oneVone/JoinQueue',
-        data: { summonerId: SummonerId },
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
+        url: 'https://localhost:44311/oneVone/JoinQueue?summonerID=' + SummonerId,
         success: function (msg) {
             $(".mm_gametype").css({ "display": "none" });
             $(".searching_wrap").toggle();
@@ -14,7 +11,6 @@
         }      
     });
 }
-
 
 function startTimer() {
     var elapsed_seconds = 0;
@@ -49,15 +45,13 @@ function get_elapsed_time_string(total_seconds) {
 }
 
 function CheckIfMatchFound(SummonerId) {
-    setInterval(function () {
+    var interval = setInterval(function () {
         $.ajax({
             type: 'POST',
-            url: 'http://matchmakingapi.azurewebsites.net/oneVone/MatchFound',
-            data: { summonerId: SummonerId },
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
+            url: 'https://localhost:44311/oneVone/MatchFound?SummonerId=' + SummonerId,
             success: function (msg) {
                 if (msg !== 0) {
+                    clearInterval(interval);
                     MatchFoundAccept(msg, SummonerId);
                 }
             }
@@ -65,26 +59,21 @@ function CheckIfMatchFound(SummonerId) {
     }, 2000);
 }
 
-function MatchFoundAccept(matchId, SummonerId) {
+function MatchFoundAccept(MatchId, SummonerId) {
     $.ajax({
         type: 'POST',
-        url: 'http://matchmakingapi.azurewebsites.net/oneVone/AcceptQueue',
-        data: { summonerId: SummonerId, matchID: matchId},
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
+        url: 'https://localhost:44311/oneVone/AcceptQueue?summonerId=' + SummonerId + '&MatchId=' + MatchId,
         success: function (msg) {
-            JoinMatch(match, SummonerId);
+            JoinMatch(MatchId, SummonerId);
         }
     });
 }
 
-function JoinMatch(Match, SummonerId) {
+function JoinMatch(MatchId, SummonerId) {
     $.ajax({
         type: 'POST',
-        url: '/Matchmaking/CreateGame',
-        data: { summonerId: SummonerId, match: Match },
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
+        url: 'Matchmaking/CreateGame',
+        data: { summonerId: SummonerId, match: MatchId },
         success: function (msg) {
             
         }
