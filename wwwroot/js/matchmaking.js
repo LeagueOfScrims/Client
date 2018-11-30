@@ -2,7 +2,7 @@
 
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:44311/oneVone/JoinQueue?summonerID=' + SummonerId,
+        url: 'http://matchmakingapi.azurewebsites.net/oneVone/JoinQueue?summonerID=' + SummonerId,
         success: function (msg) {
             $(".mm_gametype").css({ "display": "none" });
             $(".searching_wrap").toggle();
@@ -48,7 +48,7 @@ function CheckIfMatchFound(SummonerId) {
     var interval = setInterval(function () {
         $.ajax({
             type: 'POST',
-            url: 'https://localhost:44311/oneVone/MatchFound?SummonerId=' + SummonerId,
+            url: 'http://matchmakingapi.azurewebsites.net/oneVone/MatchFound?SummonerId=' + SummonerId,
             success: function (msg) {
                 if (msg !== 0) {
                     clearInterval(interval);
@@ -62,7 +62,7 @@ function CheckIfMatchFound(SummonerId) {
 function MatchFoundAccept(MatchId, SummonerId) {
     $.ajax({
         type: 'POST',
-        url: 'https://localhost:44311/oneVone/AcceptQueue?summonerId=' + SummonerId + '&MatchId=' + MatchId,
+        url: 'http://matchmakingapi.azurewebsites.net/oneVone/AcceptQueue?summonerId=' + SummonerId + '&MatchId=' + MatchId,
         success: function (msg) {
             JoinMatch(MatchId, SummonerId);
         }

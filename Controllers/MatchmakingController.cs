@@ -13,10 +13,22 @@ namespace LOS.Controllers
 {
     public class MatchmakingController : Controller
     {
-        public IActionResult Index()
+        public ILeagueClient League;
+        public async Task<IActionResult> Index()
         {
-   
-            return View();
+            League = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+            var region = await League.MakeApiRequest(LCUSharp.HttpMethod.Get, "/riotclient/region-locale");
+            var locals = JsonConvert.DeserializeObject<Region>(region.Content.ReadAsStringAsync().Result);
+
+            Summoners sum = new Summoners(League);
+            var player = sum.GetCurrentSummoner();
+
+            Summoner user = new Summoner();
+            user.SummonerID = player.SummonerId.ToString();
+            user.SummonerName = player.DisplayName;
+            user.Region = locals.RegionRegion;
+            user.Role = "Test";
+            return View(user);
         }
 
         public IActionResult fivevfive()
@@ -28,7 +40,7 @@ namespace LOS.Controllers
         public async void CreateGame(string summonerId, string match)
         {
             HttpClient http = new HttpClient();
-            var data = await http.GetAsync("https://localhost:44311/oneVone/GetMatchInfo?matchId=" + match);
+            var data = await http.GetAsync("http://matchmakingapi.azurewebsites.net/oneVone/GetMatchInfo?matchId=" + match);
             OneVOneMatch Match = JsonConvert.DeserializeObject<OneVOneMatch>(await data.Content.ReadAsStringAsync());
             Random r = new Random(10000);
             long enemy;
