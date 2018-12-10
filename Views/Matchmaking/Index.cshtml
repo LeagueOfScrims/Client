@@ -8,7 +8,7 @@
 
 <div class="mm_wrapper">
     
-        <div class="mm_gametype" onclick="oneVsoneQueue(@Model.SummonerID, 'EU')">
+        <div class="mm_gametype" onclick="CheckIfIngame('@Model.SummonerID', '@Model.Region')">
             <span>1 vs 1</span>
             <div class="queue1"></div>
         </div>
@@ -23,6 +23,9 @@
         <div class="searching_circle">
             <p>00:00</p>
         </div>
+    </div>
+    <div class="MatchFound">
+        <h2>GL HF</h2>
     </div>
 
 </div>

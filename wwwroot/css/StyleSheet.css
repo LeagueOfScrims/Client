@@ -75,17 +75,23 @@ content {
   position: relative;
 }
 .queue1 {
-  background: url("../images/matchmaking/queue1.jpg") center;
-  opacity: 0.2;
+  background: url("../images/matchmaking/queue1_grey.jpg") center;
+  opacity: 1;
   position: absolute;
   top: 0;
   height: 100%;
   width: 100%;
   background-size: cover;
-  -moz-transition: 0.5s background-size;
-  -o-transition: 0.5s background-size;
-  -webkit-transition: 0.5s background-size;
-  transition: 0.5s background-size;
+  -moz-transition: 0.5s all;
+  -o-transition: 0.5s all;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
+}
+.queue1:hover {
+  background: url("../images/matchmaking/queue1.jpg") center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
 }
 .queue2 {
   background: url("../images/matchmaking/queue2.jpg") center;
@@ -120,4 +126,13 @@ content {
 .searching_circle p {
   font-size: 4.2em;
   color: white;
+}
+.MatchFound {
+  display: none;
+  width: 100%;
+  height: 100%;
+  float: left;
+}
+.MatchFound h2 {
+  text-align: center;
 }

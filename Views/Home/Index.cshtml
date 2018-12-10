@@ -7,13 +7,16 @@
 
 @model LCUSharp.DataObjects.SummonerProfile
 
+@if (Model != null)
+{
+    @Model.InternalName
+    @Model.LastSeasonHighestRank
+    @Model.SummonerLevel
+    @Model.XpSinceLastLevel
+    @Model.SummonerId
+}
 
-@Model.InternalName
-@Model.LastSeasonHighestRank
-@Model.SummonerLevel
-@Model.XpSinceLastLevel
-@Model.SummonerId
 
 <br />
 
-@ViewBag.Test
+@ViewBag.Error

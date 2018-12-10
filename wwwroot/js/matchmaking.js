@@ -11,6 +11,9 @@ function oneVsoneQueue(SummonerId, Region) {
                 $(".searching_wrap").toggle();
                 CheckIfMatchFound(SummonerId);
                 startTimer();
+            },
+            error: function (data) {
+                alert("Not able to connect to LOS Matchmaking service, try again later");
             }
         });
     }
@@ -43,7 +46,7 @@ function get_elapsed_time_string(total_seconds) {
     seconds = pretty_time_string(seconds);
 
     // Compose the string for display
-    var currentTimeString =  minutes + ":" + seconds;
+    var currentTimeString = minutes + ":" + seconds;
 
     return currentTimeString;
 }
@@ -68,7 +71,13 @@ function MatchFoundAccept(MatchId, SummonerId) {
         type: 'POST',
         url: 'http://matchmakingapi.azurewebsites.net/oneVone/AcceptQueue?summonerId=' + SummonerId + '&MatchId=' + MatchId,
         success: function (msg) {
-            JoinMatch(MatchId, SummonerId);
+            if (msg) {
+                InGame();
+                JoinMatch(MatchId, SummonerId);
+            }
+            else {
+                CheckIfMatchFound(SummonerId);
+            }
         }
     });
 }
@@ -80,7 +89,29 @@ function JoinMatch(MatchId, SummonerId) {
         url: 'Matchmaking/CreateGame',
         data: { summonerId: SummonerId, match: MatchId },
         success: function (msg) {
-            
+
+        }
+    });
+}
+
+function InGame() {
+    $(".searching_wrap").css({ "display": "none" });
+    $(".MatchFound").css({ "display": "block" });
+}
+
+function CheckIfIngame(SummonerId, Region) {
+    $.ajax({
+        type: 'GET',
+        url: 'http://matchmakingapi.azurewebsites.net/oneVone/MatchActive?summonerID=' + SummonerId,
+        success: function (msg) {
+            if (msg) {
+                InGame();
+            } else {
+                oneVsoneQueue(SummonerId, Region);
+            }
+        },
+        error: function (data) {
+            alert("Not able to connect to LOS Matchmaking service, try again later");
         }
     });
 }

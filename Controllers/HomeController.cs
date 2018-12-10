@@ -9,6 +9,7 @@ using LCUSharp;
 using LOS.Models.DataToObject;
 using Newtonsoft.Json;
 using System.Net.Http;
+using LCUSharp.DataObjects;
 
 namespace LOS.Controllers
 {
@@ -18,16 +19,33 @@ namespace LOS.Controllers
         public ILeagueClient League;
         public async Task<IActionResult> Index()
         {
-            League = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
-            Summoners sum = new Summoners(League);
-            var prof = sum.GetCurrentSummoner();
-            ViewBag.Name = prof.DisplayName;
-            await GetUserInfoAsync();
+            try
+            {
+                League = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+                Summoners sum = new Summoners(League);
+                var prof = sum.GetCurrentSummoner();
+                if(prof.AccountId == 0)
+                {
+                    return View("NoApi");
+                }
+                ViewBag.Name = prof.DisplayName;
+                await GetUserInfoAsync();
+                return View(prof);
 
+            }
+            catch (Exception e)
+            {
+                
+                return View("NoApi");
+            }
             //CustomGamesManager cgm = new CustomGamesManager();
             //cgm.CreateOneOnOneGame("los", 20289202);
-           
-            return View(prof);
+
+        }
+
+        public IActionResult NoApi()
+        {
+            return View();
         }
 
         public IActionResult About()
