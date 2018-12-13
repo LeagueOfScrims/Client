@@ -22,6 +22,7 @@ namespace LOS
             WebHost.CreateDefaultBuilder(args)
                 .UseElectron(args)
                 .UseStartup<Startup>()
+                .UseUrls("http://localhost:7003/")
                 .Build();
     }
 }

@@ -6,8 +6,8 @@
     <_ContentIncludedByDefault Remove="wwwroot\css\StyleSheet.min.css" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BuildWebCompiler" Version="1.11.375" />
-    <PackageReference Include="ElectronNET.API" Version="0.0.9" />
+    <PackageReference Include="BuildWebCompiler" Version="1.12.394" />
+    <PackageReference Include="ElectronNET.API" Version="0.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.5" />
   </ItemGroup>

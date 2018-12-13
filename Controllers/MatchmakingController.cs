@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -59,7 +60,40 @@ namespace LOS.Controllers
 
 
         }
-        
+
+        [HttpGet]
+        public void MatchKill()
+        {
+            KillLeague();
+        }
+
+        private static void KillLeague()
+        {
+            System.Diagnostics.Process[] procs = null;
+
+            try
+            {
+                procs = Process.GetProcessesByName("LeagueOfLegends");
+
+                Process Proc = procs[0];
+
+                if (!Proc.HasExited)
+                {
+                    Proc.Kill();
+                }
+            }
+            finally
+            {
+                if (procs != null)
+                {
+                    foreach (Process p in procs)
+                    {
+                        p.Dispose();
+                    }
+                }
+            }
+        }
+
 
 
     }
