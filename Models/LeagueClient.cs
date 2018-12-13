@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Management;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -12,6 +13,8 @@ namespace LCUSharp
 {
     public class LeagueClient : ILeagueClient
     {
+        private static string AuthToken;
+        private static string RiotPort;
         private string ApiUri;
         private string LeaguePath;
         private int LeaguePid;
@@ -42,10 +45,9 @@ namespace LCUSharp
 
         public static async Task<ILeagueClient> Connect()
         {
-            Process process = await FindLeagueAsync();
-            var ret = (LeagueClient) await Connect(Path.GetDirectoryName(process.MainModule.FileName));
-            ret.LeaguePid = process.Id;
-
+            Leagueconnect();
+            string dir = GetDirectory();
+            var ret = (LeagueClient) await Connect(dir);
             return ret;
         }
 
@@ -136,6 +138,66 @@ namespace LCUSharp
             });
 
             return ret;
+        }
+        private static void Leagueconnect()
+        {
+            var process = Process.GetProcessesByName("LeagueClientUx");
+            if (process.Length != 0)
+            {
+                foreach (var getid in process)
+                {
+                    using (ManagementObjectSearcher mos = new ManagementObjectSearcher(
+                        "SELECT CommandLine FROM Win32_Process WHERE ProcessId = " + getid.Id))
+                    {
+                        foreach (ManagementObject mo in mos.Get())
+                        {
+                            if (mo["CommandLine"] != null)
+                            {
+                                string data = (mo["CommandLine"].ToString());
+                                string[] CommandlineArray = data.Split('"');
+
+                                foreach (var attributes in CommandlineArray)
+                                {
+                                    if (attributes.Contains("token") || attributes.Contains("remoting-auth-token"))
+                                    {
+                                        string[] token = attributes.Split('=');
+                                        AuthToken = token[1];
+                                    }
+                                    if (attributes.Contains("port") || attributes.Contains("app-port"))
+                                    {
+                                        string[] port = attributes.Split('=');
+                                        RiotPort = port[1];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        private static string GetDirectory()
+        {
+            string page = "https://127.0.0.1:" + RiotPort + "/data-store/v1/install-dir";
+
+            var handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+            using (HttpClient client = new HttpClient(handler))
+            {
+                var user = "riot";
+                var pass = AuthToken;
+
+                var base64 = Convert.ToBase64String(Encoding.ASCII.GetBytes($"{user}:{pass}"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                var response = client.GetStringAsync(page).GetAwaiter().GetResult();
+                response = response.Replace('"', ' ').Trim();
+                return response;
+            }
         }
 
         private void League_Exited(object sender, EventArgs e)

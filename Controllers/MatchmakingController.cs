@@ -17,7 +17,7 @@ namespace LOS.Controllers
         public ILeagueClient League;
         public async Task<IActionResult> Index()
         {
-            League = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+            League = await LeagueClient.Connect();
             var region = await League.MakeApiRequest(LCUSharp.HttpMethod.Get, "/riotclient/region-locale");
             var locals = JsonConvert.DeserializeObject<Region>(region.Content.ReadAsStringAsync().Result);
 
@@ -66,14 +66,13 @@ namespace LOS.Controllers
         {
             KillLeague();
         }
-
         private static void KillLeague()
         {
             System.Diagnostics.Process[] procs = null;
 
             try
             {
-                procs = Process.GetProcessesByName("LeagueOfLegends");
+                procs = Process.GetProcessesByName("League of Legends");
 
                 Process Proc = procs[0];
 

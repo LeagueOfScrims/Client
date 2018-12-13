@@ -14,7 +14,7 @@ namespace LOS.Models
 
         public async void CreateNewFiveOnFiveGame(string Name, long Id)
         {
-            ILeagueClient league = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+            ILeagueClient league = await LeagueClient.Connect();
             ApiObject api = new ApiObject();
             var obj = api.createCustomGameFiveOnFive(Name);
 
@@ -39,7 +39,7 @@ namespace LOS.Models
         public async void CreateOneOnOneGame(string LobbyName, long Enemyid)
         {
             Random r = new Random();
-            ILeagueClient league = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+            ILeagueClient league = await LeagueClient.Connect();
             ApiObject api = new ApiObject();
             var obj = api.createCustomGameOneOnOne(LobbyName);
             var response = league.MakeApiRequest(HttpMethod.Post, "/lol-lobby/v2/lobby", obj).Result;
@@ -80,7 +80,7 @@ namespace LOS.Models
 
         public async void JoinGame(long enemy, string match)
         {
-            ILeagueClient league = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+            ILeagueClient league = await LeagueClient.Connect();
             while (true)
             {
                 var response = await league.MakeApiRequest(HttpMethod.Get, "/lol-lobby/v2/received-invitations");

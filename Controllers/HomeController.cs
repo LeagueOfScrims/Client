@@ -21,7 +21,7 @@ namespace LOS.Controllers
         {
             try
             {
-                League = await LeagueClient.Connect(@"E:\Riot Games\League of Legends");
+                League = await LeagueClient.Connect();
                 Summoners sum = new Summoners(League);
                 var prof = sum.GetCurrentSummoner();
                 if(prof.AccountId == 0)
