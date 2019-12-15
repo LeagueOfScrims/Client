@@ -10,6 +10,7 @@ using LOS.Models.DataToObject;
 using Newtonsoft.Json;
 using System.Net.Http;
 using LCUSharp.DataObjects;
+using System.Text;
 
 namespace LOS.Controllers
 {
@@ -82,7 +83,8 @@ namespace LOS.Controllers
             user.Role = "Test";
 
             http = new HttpClient();
-            await http.PostAsJsonAsync("https://lossummonerinfoapi.azurewebsites.net/api/AddSummoner", user);
+            var content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
+            await http.PostAsync("https://lossummonerinfoapi.azurewebsites.net/api/AddSummoner", content);
         }
     }
 }
