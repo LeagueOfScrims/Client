@@ -25,6 +25,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK 3'
+  inputs:
+    version: 3.0.x
+    performMultiLevelLookup: true
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
