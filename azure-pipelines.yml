@@ -6,6 +6,16 @@
 trigger:
 - master
 
+strategy:
+  matrix:
+    linux:
+      imageName: "ubuntu-16.04"
+    mac:
+      imageName: "macos-10.13"
+    windows:
+      imageName: "vs2017-win2016"
+  maxParallel: 3
+
 pool:
   vmImage: 'windows-latest'
 
@@ -15,6 +25,13 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
+
+- task: UseDotNet@2
+  displayName: 'Install .NET Core SDK 3'
+  inputs:
+    version: 3.0.x
+    performMultiLevelLookup: true
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
